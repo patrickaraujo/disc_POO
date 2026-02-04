@@ -1,6 +1,6 @@
 # 📘 Bloco 3 — Primeiro Programa Java + Mão na Massa
 
-> **Duração estimada:** 1 hora  
+> **Duração estimada:** 50 minutos  
 > **Objetivo:** Criar, compilar e executar o primeiro programa Java, entendendo sua estrutura mínima
 
 ---
