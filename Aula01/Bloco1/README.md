@@ -1,6 +1,6 @@
 # 📘 Bloco 1 — Introdução à Programação Orientada a Objetos
 
-> **Duração estimada:** 1 hora  
+> **Duração estimada:** 50 minutos  
 > **Objetivo:** Entender o que é Orientação a Objetos e por que ela existe
 
 ---
