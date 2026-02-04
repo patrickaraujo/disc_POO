@@ -1,3 +1,129 @@
+# 📘 Bloco 2 — Java como Plataforma e Ambiente
+
+> **Duração estimada:** 1 hora  
+> **Objetivo:** Entender o que é Java além da linguagem e como um programa Java é executado
+
+---
+
+## 🎯 O que você vai aprender neste bloco
+
+Ao final deste bloco, você será capaz de:
+
+- Entender Java como **plataforma**, não apenas como linguagem
+- Compreender o conceito de **independência de plataforma**
+- Diferenciar **JVM**, **JRE** e **JDK**
+- Entender como um programa Java é compilado e executado
+- Reconhecer o papel do ambiente de desenvolvimento Java
+
+---
+
+## 💡 Conceitos Fundamentais
+
+### O que é Java?
+
+Java **não é apenas uma linguagem de programação**.
+
+Java é:
+- Uma linguagem **+**
+- Uma plataforma de execução
+
+💡 **Ideia central:**  
+Programas Java **não são executados diretamente** pelo sistema operacional.
+
+---
+
+### Independência de plataforma
+
+Em muitas linguagens:
+- O código é compilado diretamente para o sistema operacional
+
+Em Java:
+- O código é compilado para uma **linguagem intermediária**
+- Essa linguagem é executada por uma **máquina virtual**
+
+📌 **Slogan clássico do Java:**  
+*Write Once, Run Anywhere (WORA)*
+
+---
+
+## 🧠 A Máquina Virtual Java (JVM)
+
+### O que é a JVM?
+
+A **JVM (Java Virtual Machine)** é um software que:
+
+- Executa programas Java
+- Funciona sobre o sistema operacional
+- Garante comportamento padronizado da execução
+
+📌 **Função principal da JVM:**  
+Executar o mesmo programa Java em diferentes plataformas.
+
+---
+
+### Por que a JVM é importante?
+
+- Permite portabilidade
+- Ajuda na segurança da execução
+- Controla o uso de memória
+- Padroniza o ambiente de execução
+
+💡 **Conexão conceitual:**  
+Assim como a Orientação a Objetos organiza o código, a JVM organiza a execução.
+
+---
+
+## 🧩 JDK, JRE e JVM — quem é quem?
+
+### JDK — Java Development Kit
+
+- Conjunto de ferramentas para **desenvolver** programas Java
+- Inclui:
+  - Compilador (`javac`)
+  - JVM
+  - Bibliotecas padrão
+  - Outras ferramentas
+
+👉 Usado por quem **programa** em Java.
+
+---
+
+### JRE — Java Runtime Environment
+
+- Ambiente necessário para **executar** programas Java
+- Inclui:
+  - JVM
+  - Bibliotecas padrão
+
+👉 Usado por quem **executa** programas Java.
+
+---
+
+### JVM — Java Virtual Machine
+
+- Executa o código Java compilado
+- Interpreta e executa o bytecode
+- É parte essencial da plataforma Java
+
+📌 **Resumo rápido:**
+- JDK → desenvolver
+- JRE → executar
+- JVM → executar de fato
+
+---
+
+## 🔄 Como um programa Java é executado?
+
+### Fluxo de execução
+
+1. O programador escreve o código-fonte (`.java`)
+2. O compilador Java (`javac`) gera o bytecode (`.class`)
+3. A JVM carrega o bytecode na memória
+4. A JVM executa o programa
+
+```
+.java → javac → .class → JVM → execução
+```
 
 💡 **Importante:**  
 O mesmo arquivo `.class` pode ser executado em diferentes sistemas operacionais.
