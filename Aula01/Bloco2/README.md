@@ -74,7 +74,7 @@ Assim como a Orientação a Objetos organiza o código, a JVM organiza a execuç
 
 ---
 
-## 🧩 JDK, JRE e JVM — quem é quem?
+## 🧩 [JDK, JRE e JVM — quem é quem?]([https://pages.github.com/](https://share.google/K7AlP3wgC9lXtpkC8))
 
 ### JDK — Java Development Kit
 
