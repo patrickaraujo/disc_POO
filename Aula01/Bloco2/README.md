@@ -169,8 +169,7 @@ Responda e discuta com a turma:
 - Qual vantagem isso traz para sistemas grandes?
 - O que muda quando o sistema operacional é diferente?
 
-📌 **Objetivo:**  
-Fixar o conceito de Java como plataforma.
+📌 **Objetivo:** Fixar o conceito de Java como plataforma.
 
 ---
 
