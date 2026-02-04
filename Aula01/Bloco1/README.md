@@ -148,28 +148,7 @@ Pense nestes exemplos como objetos:
 
 ### 🗣️ Atividade 2 — Por que código procedural quebra?
 
-**Objetivo:** Compreender a necessidade da Orientação a Objetos
-
-**Reflexão guiada:**
-
-Imagine um sistema feito apenas com variáveis e funções soltas, sem objetos.
-
-**Perguntas para pensar:**
-- O que acontece quando o sistema cresce?
-- Onde ficam as regras de negócio?
-- O que acontece quando outra pessoa precisa mexer no código?
-- Onde surgem os erros com mais frequência?
-- E se você precisar mudar uma regra importante?
-- E se o sistema dobrar de tamanho?
-
-**Problemas comuns identificados:**
-- Código difícil de entender
-- Lógica espalhada em vários lugares
-- Muito `if` para tratar casos diferentes
-- Alto risco de introduzir erros ao fazer mudanças
-- Difícil saber onde mexer quando algo precisa ser alterado
-
-💡 **Conclusão:** Orientação a Objetos não surgiu por moda, surgiu por necessidade.
+Na pasta 📁 'Atividade2'
 
 ---
 
