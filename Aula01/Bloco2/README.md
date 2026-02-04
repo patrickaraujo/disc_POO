@@ -42,7 +42,8 @@ Em Java:
 - Essa linguagem é executada por uma **máquina virtual**
 
 📌 **Slogan clássico do Java:**  
-*Write Once, Run Anywhere (WORA)*
+ - *Write Once, Run Anywhere (WORA)*
+ - Tradução: "Escreva uma vez, execute em qualquer lugar."
 
 ---
 
