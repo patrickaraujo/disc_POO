@@ -40,6 +40,7 @@ Em muitas linguagens:
 Em Java:
 - O código é compilado para uma **linguagem intermediária**
 - Essa linguagem é executada por uma **máquina virtual**
+- Ou seja, Java **não compila direto para o SO**
 
 📌 **Slogan clássico do Java:**  
  - *Write Once, Run Anywhere (WORA)*
