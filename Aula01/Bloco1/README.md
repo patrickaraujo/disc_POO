@@ -167,9 +167,11 @@ Neste bloco você aprendeu:
 ## ➡️ Próximos Passos
 
 No próximo bloco você vai aprender:
-- O que é Java e como ele funciona
-- Estrutura básica de um programa Java
-- Como começar a escrever código orientado a objetos
+
+- O que é Java além da linguagem
+- Como um programa Java é executado
+- O papel da JVM, JRE e JDK
+- Por que Java é considerado uma plataforma
 
 ---
 
