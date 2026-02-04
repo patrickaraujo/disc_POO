@@ -146,7 +146,7 @@ Quanto maior o sistema, maior a bagunça. A organização não escala.
 
 ## 🧩 Conexão com Orientação a Objetos
 
-Sem mostrar código ainda, pense nessas questões:
+Pense nessas questões:
 
 🤔 **E se o saldo pertencesse à conta?**  
 🤔 **E se só a conta pudesse mudar seu próprio saldo?**  
