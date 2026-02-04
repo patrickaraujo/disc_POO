@@ -164,7 +164,7 @@ Teríamos:
 
 ---
 
-## 📝 Questões para Discussão em Grupo
+## 📝 Questões para Discussão
 
 1. **Quais outros problemas você identifica neste código?**
 
@@ -190,17 +190,6 @@ Ao final desta atividade, você deve ser capaz de:
 
 ---
 
-## ➡️ Próximos Passos
-
-Na próxima aula, você verá:
-
-- Como reescrever esse mesmo problema usando **Orientação a Objetos**
-- A diferença entre código procedural e código orientado a objetos
-- Como **objetos** organizam dados e comportamentos
-- Por que o código OO é mais **seguro**, **organizado** e **escalável**
-
----
-
 ## 💭 Reflexão Final
 
 > **"Orientação a Objetos não surgiu por moda.  
@@ -209,17 +198,3 @@ Na próxima aula, você verá:
 O código procedural funciona bem para programas pequenos, mas quando o sistema cresce, a falta de organização se torna um problema sério.
 
 **OO é a solução para organizar sistemas complexos de forma sustentável.**
-
----
-
-## 📌 Dicas para o Professor
-
-### Durante a discussão:
-- ❌ Não corrija os alunos rápido demais
-- ✅ Deixe os alunos falarem e expressarem suas ideias
-- ✅ Anote palavras-chave no quadro
-- ✅ Reforce que o código **não está errado**, só **mal organizado**
-- ✅ Conduza as respostas sem dar a solução completa
-
-### Objetivo pedagógico:
-Fazer o aluno **perceber** o problema, não apenas **ouvir** sobre ele.
