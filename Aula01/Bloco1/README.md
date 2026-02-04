@@ -148,7 +148,7 @@ Pense nestes exemplos como objetos:
 
 ### 🗣️ Atividade 2 — Por que código procedural quebra?
 
-Na pasta 📁 'Atividade2'
+*Na pasta 📁 '`Atividade2`'*
 
 ---
 
