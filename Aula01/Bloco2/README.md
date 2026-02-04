@@ -1,6 +1,6 @@
 # 📘 Bloco 2 — Java como Plataforma e Ambiente
 
-> **Duração estimada:** 1 hora  
+> **Duração estimada:** 50 minutos
 > **Objetivo:** Entender o que é Java além da linguagem e como um programa Java é executado
 
 ---
