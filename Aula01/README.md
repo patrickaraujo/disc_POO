@@ -35,8 +35,6 @@ Esta aula está dividida em três blocos fundamentais. Acesse cada pasta para vi
 ---
 [⬅️ Voltar para o menu principal](../README.md)
 
-```
-
 ### Estrutura de pastas atualizada na `Aula01`:
 
 Ao final, sua pasta `Aula01` ficará organizada assim:
