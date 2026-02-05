@@ -41,7 +41,7 @@ Esta aula está dividida em três blocos fundamentais. Acesse cada pasta para vi
 
 Ao final, sua pasta `Aula01` ficará organizada assim:
 
-```text
+```
 Aula01/
 ├── Bloco1/
 │   └── README.md (Introdução à POO)
