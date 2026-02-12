@@ -178,3 +178,13 @@ A organização das pastas segue o cronograma das aulas, facilitando a navegaç�
 * Discussão sobre as diferentes abordagens para o mesmo problema.
 * Revisão geral dos pilares da Orientação a Objetos.
 * Dicas para próximos passos e encerramento do curso.
+
+---
+
+## 📖 Referências Bibliográficas
+
+**Referência Básica:**  
+DEITEL, Harvey. *Java: como programar*. Contribuição de Paul Deitel. Prentice Hall, 2009.
+
+**Referência Complementar:**  
+*Java para iniciantes: crie, compile e execute programas Java rapidamente*. Bookman, 2021.
