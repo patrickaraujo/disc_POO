@@ -1,5 +1,3 @@
-Com base no conteúdo do seu curso de POO em Java, vou criar um trabalho prático que integre os principais conceitos aprendidos sem envolver UML:
-
 ## 📝 **Trabalho Prático - Sistema de Gerenciamento de Biblioteca**
 
 ### **Objetivo**
