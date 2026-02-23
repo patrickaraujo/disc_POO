@@ -70,6 +70,9 @@ No paradigma orientado a objetos, em vez de pensar em "sequência de instruçõe
 
 A ideia central é simples: **cada entidade do problema vira um objeto no código**, e esse objeto carrega seus próprios dados e sabe o que fazer com eles.
 
+> 🎬 **Vídeo recomendado:** [Programação Orientada a Objetos | Explicação Simples](https://www.youtube.com/watch?v=pbb0jzXt_xA) (3min 44s)
+> Uma visão geral do paradigma OO de forma simples e didática, com exemplos. Assista antes de continuar — vai reforçar o modelo mental desta seção.
+
 ---
 
 ## 1.4 Classe: o molde
@@ -180,6 +183,11 @@ Note que cada classe tem **responsabilidades claras**. Um `Livro` sabe se está 
 - **Atributos** = o que o objeto sabe (estado); **Métodos** = o que o objeto faz (comportamento)
 - OO não é uma linguagem — é uma forma de pensar, que Java implementa
 
+### Recursos complementares
+
+| Tipo | Recurso |
+|------|---------|
+| 🎬 Vídeo | [Programação Orientada a Objetos \| Explicação Simples](https://www.youtube.com/watch?v=pbb0jzXt_xA) — 3min 44s |
 ---
 
 **Próximo passo →** [Bloco 2](../Bloco2/README.md): agora que o modelo mental está construído, vamos ver como tudo isso vira código Java.
