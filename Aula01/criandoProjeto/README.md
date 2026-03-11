@@ -3,7 +3,7 @@
 ## 🧩 1️⃣ Criar o Projeto Java
 
 1.  Vá em **File → New → Java Project**
-2.  Nome do projeto: `TesteFor`
+2.  Nome do projeto: `testeFor`
 3.  Clique em **Next**
 4.  Se aparecer a opção **Create module-info.java**, desmarque.
 5.  Clique em **Finish**
@@ -79,7 +79,7 @@ public class Principal {
 
 ## 📁 Estrutura Final do Projeto
 
-    TesteFor
+    testeFor
      └── src
           └── br.com.teste
                 └── Principal.java
