@@ -303,30 +303,41 @@ Crie uma classe `Reservatorio` que controla o nível de água de um tanque.
 
 ---
 
-## Exercício Autônomo 2 — Classe Placar ⭐
+## Exercício Autônomo 2 — Classe Produto ⭐
 
-Crie uma classe `Placar` para um jogo simples entre dois times.
+Crie uma classe `Produto`.
 
-**Atributos** (todos `private`):
-- `nomeTime1` (String)
-- `nomeTime2` (String)
-- `golsTime1` (int) — começa em 0, somente leitura (sem setter direto)
-- `golsTime2` (int) — começa em 0, somente leitura (sem setter direto)
+### Atributos
 
-**Getters:** para todos os atributos.
+* `nome` (String)
+* `preco` (double)
+* `estoque` (int)
 
-**Setters:** apenas para `nomeTime1` e `nomeTime2` (não aceitar vazio/null).
+Todos `private`.
 
-**Métodos de negócio:**
-- `golTime1()` → incrementa os gols do time 1 em 1
-- `golTime2()` → incrementa os gols do time 2 em 1
-- `exibirPlacar()` → imprime no formato: `Flamengo 2 x 1 Palmeiras`
-- `exibirVencedor()` → imprime quem está vencendo ou se está empatado
+### Getters
 
-**Teste sugerido:**
-- Defina os dois times
-- Registre alguns gols
-- Exiba o placar e o vencedor
+para todos os atributos.
+
+### Setters
+
+* `setNome()` → não aceitar vazio
+* `setPreco()` → não aceitar preço negativo
+
+**Não criar setter para estoque.**
+
+### Métodos de negócio
+
+* `adicionarEstoque(int quantidade)`
+* `vender(int quantidade)` → não permitir vender mais do que existe
+* `exibirProduto()` → mostra nome, preço e estoque
+
+### Teste sugerido
+
+* Criar produto
+* Adicionar estoque
+* Vender alguns itens
+* Tentar vender mais do que existe
 
 ---
 
