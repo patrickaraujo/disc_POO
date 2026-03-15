@@ -24,10 +24,6 @@ A organização das pastas segue o cronograma das aulas, facilitando a navegaç�
 ├── Aula12/
 ├── Aula13/
 ├── Aula14/
-<--├── Aula15/
-├── Aula16/
-├── Aula17/
-├── Aula18/-->
 └── README.md
 
 ```
