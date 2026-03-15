@@ -24,10 +24,10 @@ A organização das pastas segue o cronograma das aulas, facilitando a navegaç�
 ├── Aula12/
 ├── Aula13/
 ├── Aula14/
-├── Aula15/
+<--├── Aula15/
 ├── Aula16/
 ├── Aula17/
-├── Aula18/
+├── Aula18/-->
 └── README.md
 
 ```
@@ -148,7 +148,7 @@ A organização das pastas segue o cronograma das aulas, facilitando a navegaç�
 * Padrão Strategy: Flexibilidade na troca de algoritmos.
 * Identificação de problemas recorrentes e soluções padrão.
 
-**Aula 15 - UML, Projeto e Consolidação: UML e Modelagem**
+<!--**Aula 15 - UML, Projeto e Consolidação: UML e Modelagem**
 
 * Principais símbolos do Diagrama de Classes.
 * Representação de atributos, métodos e visibilidade em UML.
@@ -177,7 +177,7 @@ A organização das pastas segue o cronograma das aulas, facilitando a navegaç�
 * Apresentação das soluções desenvolvidas pelos alunos.
 * Discussão sobre as diferentes abordagens para o mesmo problema.
 * Revisão geral dos pilares da Orientação a Objetos.
-* Dicas para próximos passos e encerramento do curso.
+* Dicas para próximos passos e encerramento do curso.-->
 
 ---
 
