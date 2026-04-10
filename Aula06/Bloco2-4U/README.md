@@ -1,302 +1,185 @@
-# Bloco 2–4 (Unificado) — Agregação, Composição e Integração
+# Aula 06 — Fundamentos de OO: Relacionamentos entre Classes
 
-> ⏱️ Tempo estimado: 50–60 minutos
+## 🎯 Problematização: O sistema de uma biblioteca
 
----
+Imagine que você precisa criar um sistema para gerenciar uma biblioteca. Você já sabe criar classes individuais: `Livro`, `Usuario`, `Emprestimo`. Mas surge a pergunta:
 
-## Objetivos
+**Como um `Usuario` "possui" uma lista de `Emprestimo`?**  
+**Como um `Emprestimo` "referencia" um `Livro` e um `Usuario`?**  
+**Se eu deletar um `Usuario`, os `Emprestimo` devem ser deletados também?**
 
-- Entender a diferença entre **Agregação** e **Composição**
-- Identificar qual usar baseado no ciclo de vida dos objetos
-- Implementar os dois tipos em Java
+Essas perguntas não são sobre sintaxe — são sobre **relacionamentos entre classes**. Até agora, criamos classes isoladas. Nesta aula, aprenderemos como elas se **conectam** para formar sistemas complexos.
 
----
-
-## Revisão rápida: os três tipos de relacionamento
-
-| Tipo | Símbolo | Significa | A parte sobrevive sem o todo? |
-|------|---------|-----------|-------------------------------|
-| Associação | → | "conhece um" | ✅ Sim |
-| **Agregação** | **◇** | **"tem um"** | **✅ Sim** |
-| **Composição** | **◆** | **"é composto de"** | **❌ Não** |
-
-### Pergunta-chave para decidir:
-> "Se eu **deletar o TODO**, a **PARTE** deve ser deletada junto?"
-> - **SIM** → Composição ◆
-> - **NÃO** → Agregação ◇
-
-### Exemplos fáceis de lembrar:
-
-| Situação | Tipo | Por quê? |
-|----------|------|----------|
-| Time tem Jogadores | Agregação ◇ | Jogador pode mudar de time |
-| Pedido tem Itens | Composição ◆ | Item não existe fora do pedido |
-| Empresa tem Funcionários | Agregação ◇ | Funcionário pode mudar de empresa |
-| Casa tem Quartos | Composição ◆ | Quarto não existe sem a casa |
-
----
-
-## Como identificar no código Java
-
-### Agregação — a parte é criada **fora** e passada por parâmetro:
+### O problema real
 
 ```java
-// Jogador existe antes do Time
-Jogador j1 = new Jogador("João");
-time.adicionarJogador(j1);  // ← recebe pronto → AGREGAÇÃO
+// Você sabe fazer isso (classes isoladas):
+Livro livro1 = new Livro();
+Usuario joao = new Usuario();
+
+// Mas como fazer isso?
+// "João pegou emprestado o livro 'Clean Code'"
+// Onde guardar essa relação?
+// Como representar que o empréstimo PRECISA de um livro e um usuário?
 ```
 
-### Composição — a parte é criada **dentro** da classe:
+### Como os relacionamentos resolvem isso
+
+Ao final desta aula, você será capaz de escrever:
 
 ```java
-// ItemPedido só existe dentro de Pedido
-public void adicionarItem(String produto, double preco) {
-    itens[qtd] = new ItemPedido(produto, preco);  // ← cria aqui → COMPOSIÇÃO
-}
+Livro livro = new Livro("Clean Code", "Robert Martin");
+Usuario joao = new Usuario("João Silva");
+
+// Empréstimo CONTÉM referências a livro e usuário
+Emprestimo emp = new Emprestimo(livro, joao, "15/03/2024");
+
+// E pode acessar informações através dessas relações
+System.out.println("Quem pegou? " + emp.getUsuario().getNome());
+System.out.println("Qual livro? " + emp.getLivro().getTitulo());
 ```
+
+**Isso é o poder dos relacionamentos entre classes.**
 
 ---
 
-## Exercício Tutoriado — Sistema Escola (faremos juntos)
+## Onde estamos na trilha do curso
 
-**Cenário:** Uma escola tem turmas (agregação). Cada turma tem aulas que só existem dentro dela (composição).
-
-### Passo 1 — Crie `Aluno.java`
-
-```java
-public class Aluno {
-    private String nome;
-    private String matricula;
-
-    public Aluno(String nome, String matricula) {
-        this.nome = nome;
-        this.matricula = matricula;
-    }
-
-    public String getNome() { return nome; }
-    public String getMatricula() { return matricula; }
-
-    public void apresentar() {
-        System.out.println("Aluno: " + nome + " | Matrícula: " + matricula);
-    }
-}
 ```
+Aula 01 → Ambiente, JVM, primeiro programa
+Aula 02 → Variáveis, operadores, condicionais, loops
+Aula 03 → Classes e Objetos
+Aula 04 → Encapsulamento (private, getters, setters)
+Aula 05 → Construtores e sobrecarga
+Aula 06 → ★ Você está aqui: Relacionamentos entre Classes
+Aula 07 → Herança (extends, super)
+```
+
+A Aula 05 terminou com classes bem encapsuladas e construtores robustos. A Aula 06 responde à pergunta: **como essas classes se conectam para formar sistemas complexos?**
 
 ---
 
-### Passo 2 — Crie `Aula.java`
+## Objetivos da Aula
 
-> ⚠️ Repare: construtor sem `public` — só `Turma` pode criar uma `Aula`.
+Ao final desta aula, você será capaz de:
 
-```java
-public class Aula {
-    private String data;
-    private String assunto;
-
-    // Construtor package-private (só Turma cria)
-    Aula(String data, String assunto) {
-        this.data = data;
-        this.assunto = assunto;
-    }
-
-    public void exibir() {
-        System.out.println("  [" + data + "] " + assunto);
-    }
-}
-```
+- [ ] Explicar os três tipos de relacionamento: **Associação**, **Agregação** e **Composição**
+- [ ] Implementar o relacionamento "tem um" (has-a) em código Java
+- [ ] Diferenciar agregação de composição através do **ciclo de vida dos objetos**
+- [ ] Modelar sistemas do mundo real usando relacionamentos adequados
+- [ ] Entender o impacto dos relacionamentos na arquitetura do sistema
 
 ---
 
-### Passo 3 — Crie `Turma.java`
+## Organização da Aula
 
-```java
-public class Turma {
-    private String codigo;
-    private Aluno[] alunos;       // ← AGREGAÇÃO (aluno pode mudar de turma)
-    private int qtdAlunos;
-    private Aula[] aulas;         // ← COMPOSIÇÃO (aula não existe sem turma)
-    private int qtdAulas;
-
-    public Turma(String codigo) {
-        this.codigo = codigo;
-        this.alunos = new Aluno[30];
-        this.qtdAlunos = 0;
-        this.aulas = new Aula[50];
-        this.qtdAulas = 0;
-    }
-
-    // AGREGAÇÃO: recebe aluno pronto
-    public void matricularAluno(Aluno aluno) {
-        alunos[qtdAlunos] = aluno;
-        qtdAlunos++;
-        System.out.println(aluno.getNome() + " matriculado em " + codigo);
-    }
-
-    // COMPOSIÇÃO: cria a aula aqui dentro
-    public void agendarAula(String data, String assunto) {
-        aulas[qtdAulas] = new Aula(data, assunto);  // ← cria aqui!
-        qtdAulas++;
-        System.out.println("Aula agendada: " + assunto);
-    }
-
-    public void exibirInfo() {
-        System.out.println("\n=== Turma " + codigo + " ===");
-
-        System.out.println("Alunos:");
-        for (int i = 0; i < qtdAlunos; i++) {
-            System.out.print("  ");
-            alunos[i].apresentar();
-        }
-
-        System.out.println("Aulas:");
-        for (int i = 0; i < qtdAulas; i++) {
-            aulas[i].exibir();
-        }
-    }
-}
-```
+| Bloco | Tema | Tipo | Tempo estimado |
+|-------|------|------|----------------|
+| [Bloco 1](./Bloco1/README.md) | Conceito de Associação — "conhece um" | Conceitual + codificação guiada | 40–50 min |
+| [Bloco 2–4](./Bloco2-4/README.md) | Agregação, Composição e Integração | Codificação guiada + exercício autônomo | 50–60 min |
 
 ---
 
-### Passo 4 — Crie `EscolaMain.java` e teste
+## Dinâmica da aula
+
+Cada bloco segue o formato:
+
+1. **Explicação breve** do conceito com analogia do mundo real (10 min)
+2. **Exercício guiado** — professor codifica junto com os alunos (1 por bloco)
+3. **Exercício autônomo** — alunos resolvem com orientação do professor (1 por bloco)
+
+**Diferencial desta aula:** Começamos sempre com um **problema do mundo real**, depois modelamos a solução usando relacionamentos.
+
+---
+
+## Como estudar esta aula
+
+1. **Bloco 1:** Entenda a diferença entre criar objetos isolados vs. objetos conectados
+2. **Bloco 2–4:** Pratique agregação e composição, e integre os três tipos de relacionamento em um exercício completo
+
+💡 **Dica importante:** Desenhe diagramas! Relacionamentos são muito mais fáceis de entender visualmente.
+
+---
+
+## O que NÃO será abordado ainda
+
+Para não sobrecarregar, os tópicos abaixo ficam para as próximas aulas:
+
+- **Herança** (extends, super) → Aula 07
+- **Polimorfismo** (@Override) → Aula 08
+- **Interfaces e contratos** → Aula 10
+- **Coleções** (ArrayList, HashMap) → Aula 12
+
+Nesta aula, usaremos apenas **arrays simples** quando precisar de múltiplos objetos. ArrayList virá depois.
+
+---
+
+## Conceitos-chave que você vai dominar
+
+### 1. Associação
+> "Um objeto **conhece** outro objeto e pode se comunicar com ele."
+
+**Analogia:** Você tem o telefone de um amigo. Vocês se conhecem, mas não dependem um do outro para existir.
+
+### 2. Agregação  
+> "Um objeto **tem** outro objeto, mas ambos podem existir independentemente."
+
+**Analogia:** Uma universidade tem alunos. Se a universidade fechar, os alunos continuam existindo em outras instituições.
+
+### 3. Composição
+> "Um objeto **é composto de** outro objeto. Se o todo morre, as partes também."
+
+**Analogia:** Uma casa tem quartos. Se a casa é demolida, os quartos deixam de existir.
+
+---
+
+## Resultado esperado ao final da Aula 06
+
+Ao terminar, você deve conseguir:
+
+✅ Ler código e identificar: "Isso é agregação" ou "Isso é composição"  
+✅ Modelar um sistema real e decidir qual tipo de relacionamento usar  
+✅ Escrever classes que se relacionam de forma coerente  
+✅ Explicar por que escolheu agregação ou composição em um design  
+
+E, principalmente, responder a pergunta inicial:
+
+> **"Como representar que um Empréstimo precisa de um Livro e um Usuário?"**
+
+Resposta: **Composição!** O empréstimo não existe sem livro e usuário. Se deleto o empréstimo, a relação acaba — mas livro e usuário continuam existindo.
+
+---
+
+## Conexão com o problema da biblioteca
+
+Ao final da aula, você terá implementado:
 
 ```java
-public class EscolaMain {
+// Sistema de Biblioteca completo
+public class SistemaBiblioteca {
     public static void main(String[] args) {
-
-        // Alunos existem ANTES da turma (podem mudar de turma)
-        Aluno a1 = new Aluno("Maria", "2024001");
-        Aluno a2 = new Aluno("Pedro", "2024002");
-        Aluno a3 = new Aluno("Lucas", "2024003");
-
-        // Criar turma
-        Turma turma = new Turma("POO-101");
-
-        // AGREGAÇÃO: matricular alunos existentes
-        turma.matricularAluno(a1);
-        turma.matricularAluno(a2);
-        turma.matricularAluno(a3);
-
-        // COMPOSIÇÃO: agendar aulas (criadas dentro da turma)
-        turma.agendarAula("10/04", "Classes e Objetos");
-        turma.agendarAula("12/04", "Encapsulamento");
-        turma.agendarAula("15/04", "Relacionamentos entre Classes");
-
-        // Exibir resultado
-        turma.exibirInfo();
-
-        // Demonstrar diferença de ciclo de vida
-        System.out.println("\n--- Se deletarmos a turma: ---");
-        System.out.println("Alunos CONTINUAM existindo (Agregação):");
-        a1.apresentar();
-        a2.apresentar();
-        System.out.println("Aulas seriam deletadas junto (Composição).");
+        // Objetos independentes (podem existir sozinhos)
+        Livro livro = new Livro("Clean Code", "Robert Martin");
+        Usuario joao = new Usuario("João Silva", "12345678900");
+        
+        // Empréstimo DEPENDE de livro e usuário (composição)
+        Emprestimo emp = new Emprestimo(livro, joao, "15/03/2024");
+        
+        // Usuário TEM empréstimos (agregação)
+        joao.adicionarEmprestimo(emp);
+        
+        // Navegação através dos relacionamentos
+        System.out.println("Empréstimos de " + joao.getNome() + ":");
+        for (Emprestimo e : joao.getEmprestimos()) {
+            System.out.println("- " + e.getLivro().getTitulo());
+        }
     }
 }
 ```
 
-### Saída esperada:
-
-```
-Maria matriculado em POO-101
-Pedro matriculado em POO-101
-Lucas matriculado em POO-101
-Aula agendada: Classes e Objetos
-Aula agendada: Encapsulamento
-Aula agendada: Relacionamentos entre Classes
-
-=== Turma POO-101 ===
-Alunos:
-  Aluno: Maria | Matrícula: 2024001
-  Aluno: Pedro | Matrícula: 2024002
-  Aluno: Lucas | Matrícula: 2024003
-Aulas:
-  [10/04] Classes e Objetos
-  [12/04] Encapsulamento
-  [15/04] Relacionamentos entre Classes
-
---- Se deletarmos a turma: ---
-Alunos CONTINUAM existindo (Agregação):
-Aluno: Maria | Matrícula: 2024001
-Aluno: Pedro | Matrícula: 2024002
-Aulas seriam deletadas junto (Composição).
-```
+**Esse código resolve o problema inicial — e você vai construí-lo do zero nesta aula!**
 
 ---
 
-## Exercício Autônomo — Sistema de Playlist
-
-**Cenário:** Uma playlist tem músicas que existem independentemente (agregação). Cada música tem letra, que só existe dentro da música (composição).
-
-> 🎯 Nível: fácil — siga o mesmo padrão do exercício tutoriado.
-
----
-
-### O que você deve implementar:
-
-#### Classe `Musica`
-- Atributos: `titulo` (String), `artista` (String), `duracao` (int, em segundos)
-- Construtor normal com `public`
-- Getters
-- Método `void apresentar()` — exibe título, artista e duração formatada (ex: "3:45")
-
-#### Classe `Trecho` *(composição — só existe dentro de Música)*
-- Atributos: `parte` (String, ex: "Refrão"), `texto` (String)
-- Construtor **sem `public`** (package-private)
-- Método `void exibir()`
-
-#### Classe `Playlist`
-- Atributos: `nome` (String), `musicas[]` (array de Música, capacidade 20), `qtdMusicas`
-- Construtor recebe `nome`
-- Método `void adicionarMusica(Musica m)` — **agregação**, recebe música pronta
-- Método `void listarMusicas()` — exibe todas as músicas
-- Método `int calcularDuracaoTotal()` — soma duração de todas as músicas
-
-#### Classe `PlaylistMain`
-1. Crie 4 músicas
-2. Adicione trechos a pelo menos 1 música (composição)
-3. Crie uma playlist
-4. Adicione as músicas à playlist
-5. Liste a playlist e mostre a duração total
-6. Demonstre que a música continua existindo mesmo fora da playlist
-
----
-
-### Dica para formatar duração:
-
-```java
-// Converter segundos em mm:ss
-int minutos = duracao / 60;
-int segundos = duracao % 60;
-System.out.printf("%d:%02d%n", minutos, segundos);
-```
-
----
-
-### Checklist de entrega:
-
-- [ ] `Musica.java` criado com construtor `public`
-- [ ] `Trecho.java` criado com construtor package-private (sem `public`)
-- [ ] `Playlist.java` com método `adicionarMusica` recebendo objeto pronto (agregação)
-- [ ] `Musica` cria os `Trecho` internamente (composição)
-- [ ] `PlaylistMain.java` demonstra que músicas continuam existindo fora da playlist
-
----
-
-## Resumo dos conceitos
-
-```
-AGREGAÇÃO ◇
-  - A parte é passada por parâmetro (já existe antes)
-  - Parte pode mudar de "todo"
-  - Deletar o todo NÃO deleta as partes
-  - Ex: Time → Jogadores, Empresa → Funcionários
-
-COMPOSIÇÃO ◆
-  - A parte é criada DENTRO da classe
-  - Construtor da parte pode ser package-private
-  - Deletar o todo DELETA as partes
-  - Ex: Pedido → Itens, Turma → Aulas
-```
-
-**Próxima aula:** Herança com `extends` e `super` 🚀
+## 🎯 Vamos começar!
+Clique em [Bloco 1](./Bloco1/README.md) para iniciar com o conceito de **Associação**.
