@@ -76,9 +76,7 @@ Ao final desta aula, você será capaz de:
 | Bloco | Tema | Tipo | Tempo estimado |
 |-------|------|------|----------------|
 | [Bloco 1](./Bloco1/README.md) | Conceito de Associação — "conhece um" | Conceitual + codificação guiada | 40–50 min |
-| [Bloco 2](./Bloco2/README.md) | Agregação — "tem um" (vida independente) | Codificação guiada + exercícios | 50–60 min |
-| [Bloco 3](./Bloco3/README.md) | Composição — "é composto de" (vida dependente) | Codificação guiada + exercícios | 50–60 min |
-| [Bloco 4](./Bloco4/README.md) | Múltiplos relacionamentos e aplicação prática | Projeto integrador + exercícios | 50–60 min |
+| [Bloco 2–4](./Bloco2-4/README.md) | Agregação, Composição e Integração | Codificação guiada + exercício autônomo | 50–60 min |
 
 ---
 
@@ -97,9 +95,7 @@ Cada bloco segue o formato:
 ## Como estudar esta aula
 
 1. **Bloco 1:** Entenda a diferença entre criar objetos isolados vs. objetos conectados
-2. **Bloco 2:** Pratique agregação — quando objetos podem existir independentemente
-3. **Bloco 3:** Pratique composição — quando um objeto depende totalmente de outro
-4. **Bloco 4:** Integre tudo em um mini-projeto que combina os três tipos de relacionamento
+2. **Bloco 2–4:** Pratique agregação e composição, e integre os três tipos de relacionamento em um exercício completo
 
 💡 **Dica importante:** Desenhe diagramas! Relacionamentos são muito mais fáceis de entender visualmente.
 
