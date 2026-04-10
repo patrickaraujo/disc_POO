@@ -76,7 +76,7 @@ Ao final desta aula, você será capaz de:
 | Bloco | Tema | Tipo | Tempo estimado |
 |-------|------|------|----------------|
 | [Bloco 1](./Bloco1/README.md) | Conceito de Associação — "conhece um" | Conceitual + codificação guiada | 40–50 min |
-| [Bloco 2–4](./Bloco2-4/README.md) | Agregação, Composição e Integração | Codificação guiada + exercício autônomo | 50–60 min |
+| [Bloco 2–4](./Bloco2-4U/README.md) | Agregação, Composição e Integração | Codificação guiada + exercício autônomo | 50–60 min |
 
 ---
 
@@ -95,7 +95,7 @@ Cada bloco segue o formato:
 ## Como estudar esta aula
 
 1. **Bloco 1:** Entenda a diferença entre criar objetos isolados vs. objetos conectados
-2. **Bloco 2–4:** Pratique agregação e composição, e integre os três tipos de relacionamento em um exercício completo
+2. **Bloco 2–4U:** Pratique agregação e composição, e integre os três tipos de relacionamento em um exercício completo
 
 💡 **Dica importante:** Desenhe diagramas! Relacionamentos são muito mais fáceis de entender visualmente.
 
