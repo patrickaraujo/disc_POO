@@ -76,7 +76,7 @@ Ao final desta aula, você será capaz de:
 | Bloco | Tema | Tipo | Tempo estimado |
 |-------|------|------|----------------|
 | [Bloco 1](./Bloco1/README.md) | Conceito de Associação — "conhece um" | Conceitual + codificação guiada | 40–50 min |
-| [Bloco 2–4](./Bloco2-4U/README.md) | Agregação, Composição e Integração | Codificação guiada + exercício autônomo | 50–60 min |
+| [Bloco 2–4U](./Bloco2-4U/README.md) | Agregação, Composição e Integração | Codificação guiada + exercício autônomo | 50–60 min |
 
 ---
 
