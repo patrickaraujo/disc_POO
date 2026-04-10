@@ -1,509 +1,302 @@
-# Bloco 2 — Agregação: "Tem Um" (Vida Independente)
+# Bloco 2–4 (Unificado) — Agregação, Composição e Integração
 
-## Objetivos do Bloco
-
-- Entender o conceito de agregação como relacionamento todo-parte
-- Diferenciar agregação de associação simples
-- Implementar agregação em Java usando arrays ou coleções
-- Reconhecer quando usar agregação baseado no ciclo de vida dos objetos
+> ⏱️ Tempo estimado: 50–60 minutos
 
 ---
 
-## 2.1 O que é Agregação?
+## Objetivos
 
-**Agregação** é um tipo especial de associação que representa uma relação **"tem um"** (has-a), onde:
-
-> "Um objeto **contém** ou **é composto de** outros objetos, mas esses objetos podem existir independentemente."
-
-### Diferença entre Associação e Agregação
-
-| Aspecto | Associação | Agregação |
-|---------|------------|-----------|
-| **Relação** | "conhece um" | "tem um" |
-| **Exemplo** | Paciente conhece Médico | Time tem Jogadores |
-| **Força** | Conexão fraca | Relação todo-parte |
-| **Ciclo de vida** | Independentes | Independentes |
-
-**A chave:** Na agregação, existe uma noção de **TODO** e **PARTE**, mas a parte pode existir sem o todo.
+- Entender a diferença entre **Agregação** e **Composição**
+- Identificar qual usar baseado no ciclo de vida dos objetos
+- Implementar os dois tipos em Java
 
 ---
 
-## 2.2 Analogia do mundo real
+## Revisão rápida: os três tipos de relacionamento
 
-### Universidade e Alunos (Agregação)
+| Tipo | Símbolo | Significa | A parte sobrevive sem o todo? |
+|------|---------|-----------|-------------------------------|
+| Associação | → | "conhece um" | ✅ Sim |
+| **Agregação** | **◇** | **"tem um"** | **✅ Sim** |
+| **Composição** | **◆** | **"é composto de"** | **❌ Não** |
 
-```
-┌──────────────────┐
-│  Universidade    │
-│                  │
-│  TEM             │──┐
-│  - alunos[]      │  │  Alunos podem existir
-│                  │  │  sem a universidade
-└──────────────────┘  │  (transferir, formar)
-                      │
-        ┌─────────────┼─────────────┐
-        │             │             │
-    ┌───▼───┐     ┌───▼───┐     ┌───▼───┐
-    │ Aluno │     │ Aluno │     │ Aluno │
-    │ João  │     │ Maria │     │ Pedro │
-    └───────┘     └───────┘     └───────┘
-```
+### Pergunta-chave para decidir:
+> "Se eu **deletar o TODO**, a **PARTE** deve ser deletada junto?"
+> - **SIM** → Composição ◆
+> - **NÃO** → Agregação ◇
 
-**Características:**
-- A universidade **TEM** alunos (todo-parte)
-- Se a universidade fechar, os alunos **continuam existindo**
-- Alunos podem **mudar de universidade**
-- Isso é **AGREGAÇÃO**
+### Exemplos fáceis de lembrar:
+
+| Situação | Tipo | Por quê? |
+|----------|------|----------|
+| Time tem Jogadores | Agregação ◇ | Jogador pode mudar de time |
+| Pedido tem Itens | Composição ◆ | Item não existe fora do pedido |
+| Empresa tem Funcionários | Agregação ◇ | Funcionário pode mudar de empresa |
+| Casa tem Quartos | Composição ◆ | Quarto não existe sem a casa |
 
 ---
 
-## 2.3 Implementando Agregação em Java
+## Como identificar no código Java
 
-### Exemplo: Time de Futebol
+### Agregação — a parte é criada **fora** e passada por parâmetro:
 
 ```java
-public class Jogador {
+// Jogador existe antes do Time
+Jogador j1 = new Jogador("João");
+time.adicionarJogador(j1);  // ← recebe pronto → AGREGAÇÃO
+```
+
+### Composição — a parte é criada **dentro** da classe:
+
+```java
+// ItemPedido só existe dentro de Pedido
+public void adicionarItem(String produto, double preco) {
+    itens[qtd] = new ItemPedido(produto, preco);  // ← cria aqui → COMPOSIÇÃO
+}
+```
+
+---
+
+## Exercício Tutoriado — Sistema Escola (faremos juntos)
+
+**Cenário:** Uma escola tem turmas (agregação). Cada turma tem aulas que só existem dentro dela (composição).
+
+### Passo 1 — Crie `Aluno.java`
+
+```java
+public class Aluno {
     private String nome;
-    private int numero;
-    private String posicao;
-    
-    public Jogador(String nome, int numero, String posicao) {
+    private String matricula;
+
+    public Aluno(String nome, String matricula) {
         this.nome = nome;
-        this.numero = numero;
-        this.posicao = posicao;
+        this.matricula = matricula;
     }
-    
+
     public String getNome() { return nome; }
-    public int getNumero() { return numero; }
-    public String getPosicao() { return posicao; }
-    
+    public String getMatricula() { return matricula; }
+
     public void apresentar() {
-        System.out.println("#" + numero + " - " + nome + " (" + posicao + ")");
+        System.out.println("Aluno: " + nome + " | Matrícula: " + matricula);
     }
 }
 ```
 
-```java
-public class Time {
-    private String nome;
-    private Jogador[] jogadores;  // ← AGREGAÇÃO (array de jogadores)
-    private int qtdJogadores;
-    
-    public Time(String nome, int capacidade) {
-        this.nome = nome;
-        this.jogadores = new Jogador[capacidade];
-        this.qtdJogadores = 0;
-    }
-    
-    // Adicionar jogador ao time
-    public void adicionarJogador(Jogador jogador) {
-        if (qtdJogadores < jogadores.length) {
-            jogadores[qtdJogadores] = jogador;
-            qtdJogadores++;
-            System.out.println(jogador.getNome() + " foi adicionado ao time " + nome);
-        } else {
-            System.out.println("Time completo!");
-        }
-    }
-    
-    // Remover jogador (o jogador continua existindo!)
-    public void removerJogador(String nomeJogador) {
-        for (int i = 0; i < qtdJogadores; i++) {
-            if (jogadores[i].getNome().equals(nomeJogador)) {
-                System.out.println(nomeJogador + " foi removido do time " + nome);
-                
-                // Shift array (move todos para a esquerda)
-                for (int j = i; j < qtdJogadores - 1; j++) {
-                    jogadores[j] = jogadores[j + 1];
-                }
-                jogadores[qtdJogadores - 1] = null;
-                qtdJogadores--;
-                return;
-            }
-        }
-        System.out.println(nomeJogador + " não encontrado no time.");
-    }
-    
-    // Listar jogadores
-    public void listarJogadores() {
-        System.out.println("\n=== Time " + nome + " ===");
-        if (qtdJogadores == 0) {
-            System.out.println("Nenhum jogador cadastrado.");
-        } else {
-            for (int i = 0; i < qtdJogadores; i++) {
-                jogadores[i].apresentar();
-            }
-        }
-    }
-    
-    public String getNome() { return nome; }
-    public int getQtdJogadores() { return qtdJogadores; }
-}
-```
+---
 
-### Testando a Agregação:
+### Passo 2 — Crie `Aula.java`
+
+> ⚠️ Repare: construtor sem `public` — só `Turma` pode criar uma `Aula`.
 
 ```java
-public class TimeFutebolMain {
-    public static void main(String[] args) {
-        // Criar jogadores ANTES do time (podem existir independentemente)
-        Jogador j1 = new Jogador("Neymar", 10, "Atacante");
-        Jogador j2 = new Jogador("Casemiro", 5, "Volante");
-        Jogador j3 = new Jogador("Alisson", 1, "Goleiro");
-        
-        // Criar time
-        Time selecao = new Time("Brasil", 23);
-        
-        // Adicionar jogadores ao time (agregação)
-        selecao.adicionarJogador(j1);
-        selecao.adicionarJogador(j2);
-        selecao.adicionarJogador(j3);
-        
-        // Listar time
-        selecao.listarJogadores();
-        
-        // Remover jogador (ele continua existindo!)
-        System.out.println("\n--- Removendo Casemiro ---");
-        selecao.removerJogador("Casemiro");
-        
-        selecao.listarJogadores();
-        
-        // Casemiro ainda existe!
-        System.out.println("\n--- Casemiro ainda está vivo! ---");
-        j2.apresentar();
-        
-        // Pode ser adicionado a outro time
-        Time timeReserva = new Time("Brasil Sub-23", 23);
-        timeReserva.adicionarJogador(j2);
+public class Aula {
+    private String data;
+    private String assunto;
+
+    // Construtor package-private (só Turma cria)
+    Aula(String data, String assunto) {
+        this.data = data;
+        this.assunto = assunto;
+    }
+
+    public void exibir() {
+        System.out.println("  [" + data + "] " + assunto);
     }
 }
 ```
 
-### Saída:
-
-```
-Neymar foi adicionado ao time Brasil
-Casemiro foi adicionado ao time Brasil
-Alisson foi adicionado ao time Brasil
-
-=== Time Brasil ===
-#10 - Neymar (Atacante)
-#5 - Casemiro (Volante)
-#1 - Alisson (Goleiro)
-
---- Removendo Casemiro ---
-Casemiro foi removido do time Brasil
-
-=== Time Brasil ===
-#10 - Neymar (Atacante)
-#1 - Alisson (Goleiro)
-
---- Casemiro ainda está vivo! ---
-#5 - Casemiro (Volante)
-Casemiro foi adicionado ao time Brasil Sub-23
-```
-
-**O que isso prova?**
-✅ Jogador pode existir **sem** time  
-✅ Jogador pode **mudar** de time  
-✅ Remover do time **não destroi** o jogador  
-✅ Isso é **AGREGAÇÃO**
-
 ---
 
-## 2.4 Representação em UML
-
-```
-┌──────────────────┐
-│      Time        │
-├──────────────────┤
-│ - nome           │
-│ - jogadores[]    │◇────────┐  Losango vazio = Agregação
-├──────────────────┤          │  (vida independente)
-│ + adicionarJogador() │      │
-│ + removerJogador()   │      │
-└──────────────────┘          │
-       1                      0..*
-                              │
-                      ┌───────▼────────┐
-                      │    Jogador     │
-                      ├────────────────┤
-                      │ - nome         │
-                      │ - numero       │
-                      │ - posicao      │
-                      └────────────────┘
-```
-
-**Símbolos importantes:**
-- **◇ (losango vazio)** = agregação
-- **1** = um time
-- **0..*** = zero ou mais jogadores
-
-**Leia como:** "Um Time tem de zero a muitos Jogadores, e Jogadores podem existir sem Time."
-
----
-
-## 2.5 Quando usar Agregação?
-
-Use agregação quando:
-
-✅ Existe relação **TODO-PARTE**  
-✅ A **parte pode existir sem o todo**  
-✅ A parte pode **pertencer a múltiplos todos** (ou mudar de todo)  
-✅ Deletar o todo **não destroi** as partes  
-
-**Exemplos clássicos:**
-- 🏫 Universidade **TEM** Alunos
-- ⚽ Time **TEM** Jogadores
-- 🏢 Empresa **TEM** Funcionários
-- 📚 Biblioteca **TEM** Livros
-- 🎵 Playlist **TEM** Músicas
-
----
-
-## Exercício Guiado 2 — Sistema Empresa-Funcionário (professor + alunos)
-
-Vamos criar um sistema onde **Empresa TEM Funcionários**, mas funcionários podem mudar de empresa.
-
-### Passo 1 — Crie `Funcionario.java`:
+### Passo 3 — Crie `Turma.java`
 
 ```java
-public class Funcionario {
-    private String nome;
-    private String cpf;
-    private double salario;
-    private String cargo;
-    
-    public Funcionario(String nome, String cpf, double salario, String cargo) {
-        this.nome = nome;
-        this.cpf = cpf;
-        this.salario = salario;
-        this.cargo = cargo;
+public class Turma {
+    private String codigo;
+    private Aluno[] alunos;       // ← AGREGAÇÃO (aluno pode mudar de turma)
+    private int qtdAlunos;
+    private Aula[] aulas;         // ← COMPOSIÇÃO (aula não existe sem turma)
+    private int qtdAulas;
+
+    public Turma(String codigo) {
+        this.codigo = codigo;
+        this.alunos = new Aluno[30];
+        this.qtdAlunos = 0;
+        this.aulas = new Aula[50];
+        this.qtdAulas = 0;
     }
-    
-    public String getNome() { return nome; }
-    public String getCpf() { return cpf; }
-    public double getSalario() { return salario; }
-    public String getCargo() { return cargo; }
-    
+
+    // AGREGAÇÃO: recebe aluno pronto
+    public void matricularAluno(Aluno aluno) {
+        alunos[qtdAlunos] = aluno;
+        qtdAlunos++;
+        System.out.println(aluno.getNome() + " matriculado em " + codigo);
+    }
+
+    // COMPOSIÇÃO: cria a aula aqui dentro
+    public void agendarAula(String data, String assunto) {
+        aulas[qtdAulas] = new Aula(data, assunto);  // ← cria aqui!
+        qtdAulas++;
+        System.out.println("Aula agendada: " + assunto);
+    }
+
     public void exibirInfo() {
-        System.out.println("Funcionário: " + nome);
-        System.out.println("CPF: " + cpf);
-        System.out.println("Cargo: " + cargo);
-        System.out.println("Salário: R$ " + String.format("%.2f", salario));
+        System.out.println("\n=== Turma " + codigo + " ===");
+
+        System.out.println("Alunos:");
+        for (int i = 0; i < qtdAlunos; i++) {
+            System.out.print("  ");
+            alunos[i].apresentar();
+        }
+
+        System.out.println("Aulas:");
+        for (int i = 0; i < qtdAulas; i++) {
+            aulas[i].exibir();
+        }
     }
 }
 ```
 
-### Passo 2 — Crie `Empresa.java` com agregação:
+---
+
+### Passo 4 — Crie `EscolaMain.java` e teste
 
 ```java
-public class Empresa {
-    private String razaoSocial;
-    private String cnpj;
-    private Funcionario[] funcionarios;  // ← AGREGAÇÃO
-    private int qtdFuncionarios;
-    
-    public Empresa(String razaoSocial, String cnpj, int capacidade) {
-        this.razaoSocial = razaoSocial;
-        this.cnpj = cnpj;
-        this.funcionarios = new Funcionario[capacidade];
-        this.qtdFuncionarios = 0;
-    }
-    
-    public void contratar(Funcionario funcionario) {
-        if (qtdFuncionarios < funcionarios.length) {
-            funcionarios[qtdFuncionarios] = funcionario;
-            qtdFuncionarios++;
-            System.out.println(funcionario.getNome() + " foi contratado(a) por " + razaoSocial);
-        } else {
-            System.out.println("Empresa não tem vagas disponíveis.");
-        }
-    }
-    
-    public void demitir(String cpf) {
-        for (int i = 0; i < qtdFuncionarios; i++) {
-            if (funcionarios[i].getCpf().equals(cpf)) {
-                System.out.println(funcionarios[i].getNome() + " foi demitido(a) de " + razaoSocial);
-                
-                // Remove do array
-                for (int j = i; j < qtdFuncionarios - 1; j++) {
-                    funcionarios[j] = funcionarios[j + 1];
-                }
-                funcionarios[qtdFuncionarios - 1] = null;
-                qtdFuncionarios--;
-                return;
-            }
-        }
-        System.out.println("Funcionário com CPF " + cpf + " não encontrado.");
-    }
-    
-    public void listarFuncionarios() {
-        System.out.println("\n=== Funcionários de " + razaoSocial + " ===");
-        if (qtdFuncionarios == 0) {
-            System.out.println("Nenhum funcionário cadastrado.");
-        } else {
-            for (int i = 0; i < qtdFuncionarios; i++) {
-                System.out.println((i + 1) + ". " + funcionarios[i].getNome() + 
-                                   " - " + funcionarios[i].getCargo());
-            }
-        }
-    }
-    
-    public double calcularFolhaPagamento() {
-        double total = 0;
-        for (int i = 0; i < qtdFuncionarios; i++) {
-            total += funcionarios[i].getSalario();
-        }
-        return total;
-    }
-    
-    public String getRazaoSocial() { return razaoSocial; }
-    public String getCnpj() { return cnpj; }
-    public int getQtdFuncionarios() { return qtdFuncionarios; }
-}
-```
-
-### Passo 3 — Crie `EmpresaMain.java`:
-
-```java
-public class EmpresaMain {
+public class EscolaMain {
     public static void main(String[] args) {
-        // Criar funcionários (existem independentemente)
-        Funcionario f1 = new Funcionario("Ana Silva", "111.222.333-44", 5000.0, "Desenvolvedora");
-        Funcionario f2 = new Funcionario("Carlos Souza", "555.666.777-88", 4500.0, "Analista");
-        Funcionario f3 = new Funcionario("Beatriz Lima", "999.888.777-66", 6000.0, "Gerente");
-        
-        // Criar empresa
-        Empresa techCorp = new Empresa("TechCorp Solutions LTDA", "12.345.678/0001-90", 10);
-        
-        // Contratar funcionários (agregação)
-        techCorp.contratar(f1);
-        techCorp.contratar(f2);
-        techCorp.contratar(f3);
-        
-        // Listar funcionários
-        techCorp.listarFuncionarios();
-        
-        // Mostrar folha de pagamento
-        System.out.println("\nFolha de pagamento total: R$ " + 
-                          String.format("%.2f", techCorp.calcularFolhaPagamento()));
-        
-        // Demitir funcionário
-        System.out.println("\n--- Demissão ---");
-        techCorp.demitir("555.666.777-88");
-        
-        techCorp.listarFuncionarios();
-        System.out.println("\nNova folha de pagamento: R$ " + 
-                          String.format("%.2f", techCorp.calcularFolhaPagamento()));
-        
-        // Carlos ainda existe!
-        System.out.println("\n--- Carlos ainda existe ---");
-        f2.exibirInfo();
-        
-        // Pode ser contratado por outra empresa
-        System.out.println("\n--- Nova contratação ---");
-        Empresa startupXYZ = new Empresa("Startup XYZ", "98.765.432/0001-10", 5);
-        startupXYZ.contratar(f2);
+
+        // Alunos existem ANTES da turma (podem mudar de turma)
+        Aluno a1 = new Aluno("Maria", "2024001");
+        Aluno a2 = new Aluno("Pedro", "2024002");
+        Aluno a3 = new Aluno("Lucas", "2024003");
+
+        // Criar turma
+        Turma turma = new Turma("POO-101");
+
+        // AGREGAÇÃO: matricular alunos existentes
+        turma.matricularAluno(a1);
+        turma.matricularAluno(a2);
+        turma.matricularAluno(a3);
+
+        // COMPOSIÇÃO: agendar aulas (criadas dentro da turma)
+        turma.agendarAula("10/04", "Classes e Objetos");
+        turma.agendarAula("12/04", "Encapsulamento");
+        turma.agendarAula("15/04", "Relacionamentos entre Classes");
+
+        // Exibir resultado
+        turma.exibirInfo();
+
+        // Demonstrar diferença de ciclo de vida
+        System.out.println("\n--- Se deletarmos a turma: ---");
+        System.out.println("Alunos CONTINUAM existindo (Agregação):");
+        a1.apresentar();
+        a2.apresentar();
+        System.out.println("Aulas seriam deletadas junto (Composição).");
     }
 }
 ```
 
-### Observações importantes:
+### Saída esperada:
 
-1. ✅ Funcionários criados **antes** da empresa
-2. ✅ Funcionário pode ser **removido** da empresa mas continua existindo
-3. ✅ Funcionário pode ser **contratado** por outra empresa
-4. ✅ Empresa **agrega** funcionários (losango vazio ◇)
+```
+Maria matriculado em POO-101
+Pedro matriculado em POO-101
+Lucas matriculado em POO-101
+Aula agendada: Classes e Objetos
+Aula agendada: Encapsulamento
+Aula agendada: Relacionamentos entre Classes
+
+=== Turma POO-101 ===
+Alunos:
+  Aluno: Maria | Matrícula: 2024001
+  Aluno: Pedro | Matrícula: 2024002
+  Aluno: Lucas | Matrícula: 2024003
+Aulas:
+  [10/04] Classes e Objetos
+  [12/04] Encapsulamento
+  [15/04] Relacionamentos entre Classes
+
+--- Se deletarmos a turma: ---
+Alunos CONTINUAM existindo (Agregação):
+Aluno: Maria | Matrícula: 2024001
+Aluno: Pedro | Matrícula: 2024002
+Aulas seriam deletadas junto (Composição).
+```
 
 ---
 
-## Exercício Autônomo 2 — Sistema Biblioteca-Livro
+## Exercício Autônomo — Sistema de Playlist
 
-**Contexto:** Uma biblioteca empresta livros para leitores, mas os livros continuam existindo mesmo que a biblioteca feche.
+**Cenário:** Uma playlist tem músicas que existem independentemente (agregação). Cada música tem letra, que só existe dentro da música (composição).
 
-**Objetivo:** Implementar agregação onde Biblioteca TEM Livros.
-
-### Requisitos:
-
-1. Classe `Livro`:
-   - Atributos: `titulo`, `autor`, `isbn`, `disponivel` (boolean)
-   - Construtor (disponivel começa como true)
-   - Getters
-   - Métodos:
-     - `void emprestar()` — marca como não disponível
-     - `void devolver()` — marca como disponível
-     - `void exibirInfo()` — mostra todos os dados
-
-2. Classe `Biblioteca`:
-   - Atributos: `nome`, `endereco`, `acervo[]` (array de Livro), `qtdLivros`
-   - Construtor recebe nome, endereco e capacidade do acervo
-   - Métodos:
-     - `void adicionarLivro(Livro livro)` — adiciona ao acervo
-     - `void removerLivro(String isbn)` — remove do acervo
-     - `Livro buscarPorTitulo(String titulo)` — retorna o livro ou null
-     - `void listarAcervo()` — lista todos os livros
-     - `void listarDisponiveis()` — lista apenas livros disponíveis
-
-3. Classe `BibliotecaMain`:
-   - Crie 5 livros
-   - Crie uma biblioteca
-   - Adicione os livros ao acervo
-   - Liste o acervo completo
-   - Empreste 2 livros
-   - Liste apenas disponíveis
-   - Remova 1 livro do acervo
-   - Mostre que o livro removido ainda existe
-
-### Exemplo de saída esperada:
-
-```
-Clean Code foi adicionado ao acervo de Biblioteca Central
-Design Patterns foi adicionado ao acervo de Biblioteca Central
-...
-
-=== Acervo de Biblioteca Central ===
-1. Clean Code - Robert Martin (Disponível)
-2. Design Patterns - GoF (Disponível)
-...
-
---- Emprestando livros ---
-Clean Code foi emprestado.
-Design Patterns foi emprestado.
-
-=== Livros disponíveis ===
-3. Refactoring - Martin Fowler (Disponível)
-...
-
---- Removendo livro do acervo ---
-Clean Code foi removido do acervo de Biblioteca Central
-
---- Livro removido ainda existe ---
-Título: Clean Code
-Autor: Robert Martin
-ISBN: 978-0132350884
-Status: Emprestado
-```
-
-### Dicas:
-
-- Use um método auxiliar para encontrar índice do livro no array
-- Lembre-se: remover do acervo ≠ destruir o livro
-- Emprestar/devolver muda o estado do livro (atributo `disponivel`)
+> 🎯 Nível: fácil — siga o mesmo padrão do exercício tutoriado.
 
 ---
 
-## Resumo do Bloco 2
+### O que você deve implementar:
 
-Neste bloco você aprendeu:
+#### Classe `Musica`
+- Atributos: `titulo` (String), `artista` (String), `duracao` (int, em segundos)
+- Construtor normal com `public`
+- Getters
+- Método `void apresentar()` — exibe título, artista e duração formatada (ex: "3:45")
 
-✅ **Agregação** = relação TODO-PARTE com vidas independentes  
-✅ Representada por **array ou coleção** de objetos  
-✅ Símbolo UML: **◇ (losango vazio)**  
-✅ A parte pode **existir sem o todo**  
-✅ A parte pode **mudar de todo**  
-✅ Exemplos: Empresa-Funcionário, Time-Jogador, Biblioteca-Livro  
+#### Classe `Trecho` *(composição — só existe dentro de Música)*
+- Atributos: `parte` (String, ex: "Refrão"), `texto` (String)
+- Construtor **sem `public`** (package-private)
+- Método `void exibir()`
 
-**Próximo passo:** No **Bloco 3**, você aprenderá sobre **Composição** — onde a parte **NÃO pode existir** sem o todo!
+#### Classe `Playlist`
+- Atributos: `nome` (String), `musicas[]` (array de Música, capacidade 20), `qtdMusicas`
+- Construtor recebe `nome`
+- Método `void adicionarMusica(Musica m)` — **agregação**, recebe música pronta
+- Método `void listarMusicas()` — exibe todas as músicas
+- Método `int calcularDuracaoTotal()` — soma duração de todas as músicas
 
-[➡️ Ir para Bloco 3](../Bloco3/README.md)
+#### Classe `PlaylistMain`
+1. Crie 4 músicas
+2. Adicione trechos a pelo menos 1 música (composição)
+3. Crie uma playlist
+4. Adicione as músicas à playlist
+5. Liste a playlist e mostre a duração total
+6. Demonstre que a música continua existindo mesmo fora da playlist
+
+---
+
+### Dica para formatar duração:
+
+```java
+// Converter segundos em mm:ss
+int minutos = duracao / 60;
+int segundos = duracao % 60;
+System.out.printf("%d:%02d%n", minutos, segundos);
+```
+
+---
+
+### Checklist de entrega:
+
+- [ ] `Musica.java` criado com construtor `public`
+- [ ] `Trecho.java` criado com construtor package-private (sem `public`)
+- [ ] `Playlist.java` com método `adicionarMusica` recebendo objeto pronto (agregação)
+- [ ] `Musica` cria os `Trecho` internamente (composição)
+- [ ] `PlaylistMain.java` demonstra que músicas continuam existindo fora da playlist
+
+---
+
+## Resumo dos conceitos
+
+```
+AGREGAÇÃO ◇
+  - A parte é passada por parâmetro (já existe antes)
+  - Parte pode mudar de "todo"
+  - Deletar o todo NÃO deleta as partes
+  - Ex: Time → Jogadores, Empresa → Funcionários
+
+COMPOSIÇÃO ◆
+  - A parte é criada DENTRO da classe
+  - Construtor da parte pode ser package-private
+  - Deletar o todo DELETA as partes
+  - Ex: Pedido → Itens, Turma → Aulas
+```
+
+**Próxima aula:** Herança com `extends` e `super` 🚀
