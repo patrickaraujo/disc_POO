@@ -76,7 +76,10 @@ Ao final desta aula, você será capaz de:
 | Bloco | Tema | Tipo | Tempo estimado |
 |-------|------|------|----------------|
 | [Bloco 1](./Bloco1/README.md) | Conceito de Associação — "conhece um" | Conceitual + codificação guiada | 40–50 min |
-| [Bloco 2–4U](./Bloco2-4U/README.md) | Agregação, Composição e Integração | Codificação guiada + exercício autônomo | 50–60 min |
+| [Bloco 2](./Bloco2/README.md) | Agregação — "tem um" (vida independente) | Codificação guiada + exercício autônomo | 50–60 min |
+| [Bloco 3](./Bloco3/README.md) | Composição e Múltiplos Relacionamentos | Codificação guiada + exercício autônomo | 60–70 min |
+
+> **Observação:** O Bloco 3 unifica os conceitos de **composição** e **integração dos três tipos de relacionamento** em uma única aula. O exercício guiado (Sistema de Partida de Futebol) aproveita o contexto de futebol já introduzido no Bloco 2 e mostra os três relacionamentos em um só sistema.
 
 ---
 
@@ -85,8 +88,8 @@ Ao final desta aula, você será capaz de:
 Cada bloco segue o formato:
 
 1. **Explicação breve** do conceito com analogia do mundo real (10 min)
-2. **Exercício guiado** — professor codifica junto com os alunos (1 por bloco)
-3. **Exercício autônomo** — alunos resolvem com orientação do professor (1 por bloco)
+2. **Exercício guiado** — professor codifica junto com os alunos
+3. **Exercício autônomo** — alunos resolvem com orientação do professor
 
 **Diferencial desta aula:** Começamos sempre com um **problema do mundo real**, depois modelamos a solução usando relacionamentos.
 
@@ -94,8 +97,9 @@ Cada bloco segue o formato:
 
 ## Como estudar esta aula
 
-1. **Bloco 1:** Entenda a diferença entre criar objetos isolados vs. objetos conectados
-2. **Bloco 2–4U:** Pratique agregação e composição, e integre os três tipos de relacionamento em um exercício completo
+1. **Bloco 1:** Entenda a diferença entre criar objetos isolados vs. objetos conectados (associação)
+2. **Bloco 2:** Pratique agregação — quando objetos podem existir independentemente
+3. **Bloco 3:** Aprenda composição e veja como os três tipos de relacionamento convivem em um mesmo sistema
 
 💡 **Dica importante:** Desenhe diagramas! Relacionamentos são muito mais fáceis de entender visualmente.
 
@@ -141,6 +145,7 @@ Ao terminar, você deve conseguir:
 ✅ Modelar um sistema real e decidir qual tipo de relacionamento usar  
 ✅ Escrever classes que se relacionam de forma coerente  
 ✅ Explicar por que escolheu agregação ou composição em um design  
+✅ Integrar associação, agregação e composição em um mesmo sistema  
 
 E, principalmente, responder a pergunta inicial:
 
