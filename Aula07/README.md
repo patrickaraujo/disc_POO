@@ -305,29 +305,28 @@ E, principalmente, resolver o problema inicial:
 ## Visualizando a hierarquia final
 
 ```
-                    ┌─────────────────┐
-                    │   Funcionario   │
-                    ├─────────────────┤
-                    │ - nome          │
-                    │ - cpf           │
-                    ├─────────────────┤
+                    ┌─────────────────────┐
+                    │   Funcionario       │
+                    ├─────────────────────┤
+                    │ - nome              │
+                    │ - cpf               │
+                    ├─────────────────────┤
                     │ + calcularSalario() │
-                    │ + exibirDados() │
-                    └────────┬────────┘
+                    │ + exibirDados()     │
+                    └────────┬────────────┘
                              │
-                ┌────────────┼────────────┐
-                │            │            │
-        ┌───────▼──────┐ ┌──▼─────────┐ ┌▼──────────────┐
-        │FuncionarioCLT│ │FuncionarioH│ │Funcionario    │
-        │              │ │orista      │ │Comissionado   │
-        ├──────────────┤ ├────────────┤ ├───────────────┤
-        │- salarioBase │ │- valorHora │ │- salarioBase  │
-        │              │ │- horasTrab │ │- totalVendas  │
-        │              │ │            │ │- taxaComissao │
-        ├──────────────┤ ├────────────┤ ├───────────────┤
-        │@Override     │ │@Override   │ │@Override      │
-        │calcularSal..│ │calcularSal │ │calcularSalario│
-        └──────────────┘ └────────────┘ └───────────────┘
+                ┌────────────┼─────────────────┐
+                │            │                 │
+        ┌───────▼──────┐ ┌───▼──────────────┐ ┌▼───────────────────────┐
+        │FuncionarioCLT│ │FuncionarioHorista│ │Funcionario Comissionado│
+        ├──────────────┤ ├──────────────────┤ ├────────────────────────┤
+        │- salarioBase │ │- valorHora       │ │- salarioBase           │
+        │              │ │- horasTrab       │ │- totalVendas           │
+        │              │ │                  │ │- taxaComissao          │
+        ├──────────────┤ ├──────────────────┤ ├────────────────────────┤
+        │@Override     │ │@Override         │ │@Override               │
+        │calcularSal...│ │calcularSal...    │ │calcularSalario         │
+        └──────────────┘ └──────────────────┘ └────────────────────────┘
 ```
 
 **Leia como:** "FuncionarioCLT **é um** Funcionario, FuncionarioHorista **é um** Funcionario..."
