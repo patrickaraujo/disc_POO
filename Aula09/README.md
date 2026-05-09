@@ -165,7 +165,7 @@ Ao final desta aula, você será capaz de:
 |-------|------|---------|----------------|
 | [Bloco 1](./Bloco1/README.md) | Conceitos de Classes Abstratas + Template Method | Explicação + exemplo simples | 50–60 min |
 | [Bloco 2](./Bloco2/README.md) | Exercício Guiado Completo: Sistema de Notificações | Codificação guiada passo a passo | 90–120 min |
-| [Bloco 3](./Bloco3/README.md) | Exercício Autônomo: Sistema de Importação de Dados | Desenvolvimento independente | 90–120 min |
+| [Bloco 3](./Bloco3/README.md) | Exercício Autônomo: Sistema de Pagamentos | Desenvolvimento independente | 90–120 min |
 
 > **Observação:** Os Blocos 2 e 3 contêm exercícios substanciais que podem ocupar uma aula inteira cada um. O Bloco 1 foca em **entender** o mecanismo das classes abstratas (incluindo Template Method), enquanto os Blocos 2 e 3 focam em **aplicar** através de projetos completos.
 
@@ -192,7 +192,7 @@ Ao final desta aula, você será capaz de:
 
 ### Bloco 3 — Exercício Autônomo (3ª aula: 90-120 min)
 **Alunos desenvolvem com supervisão:**
-- Sistema completo de Importação de Dados (CSV, JSON, XML, Excel)
+- Sistema completo de Pagamentos (Cartão de Crédito, PIX, Boleto)
 - Requisitos detalhados fornecidos
 - Professor circula tirando dúvidas
 - Apresentação de soluções ao final
@@ -264,25 +264,25 @@ public abstract class Forma {
 ### 4. Template Method (o padrão estrela)
 
 ```java
-public abstract class Importador {
+public abstract class Pagamento {
 
     // ESTE é o Template Method (concreto, geralmente final)
-    public final void importar() {
-        abrirArquivo();      // 1
-        ler();               // 2
-        validar();           // 3
-        salvarBanco();       // 4
-        fecharArquivo();     // 5
+    public final void processar() {
+        if (!validarDados()) return;     // 1
+        double taxa = calcularTaxa();    // 2
+        boolean ok = autorizar();        // 3
+        registrarTransacao();            // 4
+        notificarCliente();              // 5
     }
 
     // Pontos de variação (abstratos)
-    protected abstract void abrirArquivo();
-    protected abstract void ler();
-    protected abstract void validar();
+    protected abstract boolean validarDados();
+    protected abstract double calcularTaxa();
+    protected abstract boolean autorizar();
 
     // Passos comuns (concretos)
-    protected void salvarBanco() { /* ... */ }
-    protected void fecharArquivo() { /* ... */ }
+    protected void registrarTransacao() { /* ... */ }
+    protected void notificarCliente()   { /* ... */ }
 }
 ```
 
