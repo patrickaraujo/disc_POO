@@ -370,102 +370,9 @@ public class NotificacaoPush extends Notificacao {
 
 ---
 
-## Passo 6 — Criar a Classe `CentralNotificacoes`
+## Passo 6 — Classe Principal com Coleção Polimórfica
 
-Agora vamos criar uma classe que **gerencia** o envio em massa.
-
-```java
-import java.util.ArrayList;
-
-public class CentralNotificacoes {
-
-    private String nomeEmpresa;
-    private ArrayList<Notificacao> historico;
-
-    public CentralNotificacoes(String nomeEmpresa) {
-        this.nomeEmpresa = nomeEmpresa;
-        // ★ ArrayList polimórfico de tipo abstrato ★
-        // Aceita qualquer subclasse concreta de Notificacao
-        this.historico = new ArrayList<>();
-    }
-
-    // Adiciona e dispara o envio (Template Method em ação!)
-    public void enfileirar(Notificacao n) {
-        historico.add(n);
-        n.enviar();  // ← Template Method polimórfico
-    }
-
-    // Lista resumida
-    public void listarTodas() {
-        System.out.println("\n╔═══════════════════════════════════════════════════════════╗");
-        System.out.println("║  HISTÓRICO DE NOTIFICAÇÕES - " + nomeEmpresa.toUpperCase());
-        System.out.println("╠═══════════════════════════════════════════════════════════╣");
-
-        if (historico.isEmpty()) {
-            System.out.println("║  Nenhuma notificação enviada.");
-        } else {
-            for (int i = 0; i < historico.size(); i++) {
-                Notificacao n = historico.get(i);
-                System.out.printf("║  [%d] %-6s | %-8s | %-28s | %s%n",
-                    (i + 1),
-                    n.getId(),
-                    n.getTipoCanal(),
-                    truncar(n.getDestinatario(), 28),
-                    n.getStatus());
-            }
-        }
-
-        System.out.println("╚═══════════════════════════════════════════════════════════╝");
-    }
-
-    // Estatísticas
-    public void exibirEstatisticas() {
-        int total = historico.size();
-        int enviadas = 0, falhas = 0;
-
-        for (Notificacao n : historico) {
-            if (n.getStatus() == StatusEnvio.ENVIADO) enviadas++;
-            else if (n.getStatus() == StatusEnvio.FALHOU) falhas++;
-        }
-
-        System.out.println("\n=== ESTATÍSTICAS ===");
-        System.out.println("Total de notificações: " + total);
-        System.out.println("  ✓ Enviadas: " + enviadas);
-        System.out.println("  ✗ Falhas:   " + falhas);
-
-        if (total > 0) {
-            double taxaSucesso = (enviadas * 100.0) / total;
-            System.out.printf("Taxa de sucesso: %.1f%%%n", taxaSucesso);
-        }
-    }
-
-    // Filtro polimórfico por canal
-    public ArrayList<Notificacao> filtrarPorTipo(Class<?> tipo) {
-        ArrayList<Notificacao> resultado = new ArrayList<>();
-        for (Notificacao n : historico) {
-            if (tipo.isInstance(n)) {
-                resultado.add(n);
-            }
-        }
-        return resultado;
-    }
-
-    // Auxiliar
-    private String truncar(String s, int max) {
-        if (s == null) return "";
-        return s.length() <= max ? s : s.substring(0, max - 3) + "...";
-    }
-}
-```
-
-**Discussão importante:**
-- `ArrayList<Notificacao>` — note que **`Notificacao` é abstrata**, mas pode ser usada como **tipo de referência**.
-- `n.enviar()` chama o Template Method, que internamente chama os métodos abstratos da subclasse correta (polimorfismo!).
-- **Para adicionar novo canal, NÃO precisamos mexer em `CentralNotificacoes`!**
-
----
-
-## Passo 7 — Classe Principal para Testar
+Não precisamos de uma classe gerenciadora extra: o próprio `main` mantém o histórico em um **`ArrayList<Notificacao>`**. A chave do polimorfismo aqui é que **`Notificacao` é abstrata, mas pode ser usada como tipo de referência** — a lista aceita qualquer subclasse concreta.
 
 ```java
 import java.util.ArrayList;
@@ -477,7 +384,9 @@ public class SistemaNotificacoes {
         System.out.println("║      CENTRAL DE NOTIFICAÇÕES - TechBR             ║");
         System.out.println("╚═══════════════════════════════════════════════════╝");
 
-        CentralNotificacoes central = new CentralNotificacoes("TechBR");
+        // ★ ArrayList polimórfico de tipo abstrato ★
+        // Aceita qualquer subclasse concreta de Notificacao
+        ArrayList<Notificacao> historico = new ArrayList<>();
 
         // ❌ Tentativa de instanciar a abstrata (deixe COMENTADO):
         // Notificacao n = new Notificacao("X", "y", "z");
@@ -485,59 +394,102 @@ public class SistemaNotificacoes {
         //                  Erro de compilação: Notificacao is abstract
 
         // SMS — destinatário válido
-        central.enfileirar(new NotificacaoSMS(
+        Notificacao n1 = new NotificacaoSMS(
             "N001",
             "11987654321",
-            "Seu pedido #4521 foi enviado e chega amanhã!"
-        ));
+            "Seu pedido #4521 foi enviado e chega amanhã!");
+        historico.add(n1);
+        n1.enviar();  // ← Template Method polimórfico
 
         // E-mail — destinatário válido
-        central.enfileirar(new NotificacaoEmail(
+        Notificacao n2 = new NotificacaoEmail(
             "N002",
             "ana.silva@email.com",
             "Confirmação de Pagamento",
-            "Recebemos seu pagamento de R$ 250,00. Obrigado!"
-        ));
+            "Recebemos seu pagamento de R$ 250,00. Obrigado!");
+        historico.add(n2);
+        n2.enviar();
 
         // Push — destinatário válido
-        central.enfileirar(new NotificacaoPush(
+        Notificacao n3 = new NotificacaoPush(
             "N003",
             "device_abc12345xyz",
             "Promoção Relâmpago",
-            "20% OFF em toda a loja por 1 hora!"
-        ));
+            "20% OFF em toda a loja por 1 hora!");
+        historico.add(n3);
+        n3.enviar();
 
         // SMS — destinatário INVÁLIDO (telefone com poucos dígitos)
-        central.enfileirar(new NotificacaoSMS(
+        Notificacao n4 = new NotificacaoSMS(
             "N004",
             "1198765",  // ❌ formato inválido
-            "Mensagem de teste"
-        ));
+            "Mensagem de teste");
+        historico.add(n4);
+        n4.enviar();
 
         // E-mail — destinatário INVÁLIDO (sem @)
-        central.enfileirar(new NotificacaoEmail(
+        Notificacao n5 = new NotificacaoEmail(
             "N005",
             "email-invalido.com",  // ❌ sem @
             "Teste",
-            "Mensagem de teste"
-        ));
+            "Mensagem de teste");
+        historico.add(n5);
+        n5.enviar();
 
-        // Listar tudo
-        central.listarTodas();
+        // ─────────────────────────────────────────────────────
+        //  LISTAR TODAS
+        // ─────────────────────────────────────────────────────
+        System.out.println("\n╔═══════════════════════════════════════════════════════════╗");
+        System.out.println("║  HISTÓRICO DE NOTIFICAÇÕES - TECHBR");
+        System.out.println("╠═══════════════════════════════════════════════════════════╣");
+        for (int i = 0; i < historico.size(); i++) {
+            Notificacao n = historico.get(i);
+            System.out.printf("║  [%d] %-6s | %-8s | %-28s | %s%n",
+                (i + 1),
+                n.getId(),
+                n.getTipoCanal(),
+                n.getDestinatario(),
+                n.getStatus());
+        }
+        System.out.println("╚═══════════════════════════════════════════════════════════╝");
 
-        // Estatísticas
-        central.exibirEstatisticas();
+        // ─────────────────────────────────────────────────────
+        //  ESTATÍSTICAS
+        // ─────────────────────────────────────────────────────
+        int enviadas = 0, falhas = 0;
+        for (Notificacao n : historico) {
+            if (n.getStatus() == StatusEnvio.ENVIADO) enviadas++;
+            else if (n.getStatus() == StatusEnvio.FALHOU) falhas++;
+        }
 
-        // Filtrar por canal
+        System.out.println("\n=== ESTATÍSTICAS ===");
+        System.out.println("Total de notificações: " + historico.size());
+        System.out.println("  ✓ Enviadas: " + enviadas);
+        System.out.println("  ✗ Falhas:   " + falhas);
+        if (historico.size() > 0) {
+            double taxaSucesso = (enviadas * 100.0) / historico.size();
+            System.out.printf("Taxa de sucesso: %.1f%%%n", taxaSucesso);
+        }
+
+        // ─────────────────────────────────────────────────────
+        //  FILTRO POLIMÓRFICO POR CANAL (apenas E-mails)
+        // ─────────────────────────────────────────────────────
         System.out.println("\n=== FILTRO: APENAS E-MAILS ===");
-        ArrayList<Notificacao> emails = central.filtrarPorTipo(NotificacaoEmail.class);
-        for (Notificacao n : emails) {
-            System.out.println("- " + n.getId() + " | " + n.getDestinatario()
+        for (Notificacao n : historico) {
+            if (n instanceof NotificacaoEmail) {
+                System.out.println("- " + n.getId() + " | " + n.getDestinatario()
                     + " | " + n.getStatus());
+            }
         }
     }
 }
 ```
+
+**Discussão importante:**
+- `ArrayList<Notificacao>` — note que **`Notificacao` é abstrata**, mas pode ser usada como **tipo de referência**.
+- `n.enviar()` chama o Template Method, que internamente chama os métodos abstratos da subclasse correta (polimorfismo!).
+- O filtro com **`n instanceof NotificacaoEmail`** demonstra polimorfismo na prática: a mesma lista guarda objetos de tipos diferentes, e usamos `instanceof` para distingui-los apenas quando precisamos.
+- **Para adicionar um novo canal, basta criar a subclasse e instanciá-la — nenhuma classe existente precisa ser alterada.**
 
 > **Importante para o professor:** mostre o erro de compilação ao **descomentar** a linha `Notificacao n = new Notificacao(...)`. Isso fixa visualmente o conceito de que **abstratas não são instanciáveis**.
 
@@ -599,7 +551,7 @@ Taxa de sucesso: 60,0%
 
 ---
 
-## Passo 8 — Adicionando NOVO Canal (a magia das classes abstratas)
+## Passo 7 — Adicionando NOVO Canal (a magia das classes abstratas)
 
 Imagine que a empresa quer integrar o **Telegram**. Vamos adicionar **sem mexer em nenhuma classe existente**:
 
@@ -646,21 +598,22 @@ public class NotificacaoTelegram extends Notificacao {
 }
 ```
 
-**Use no `main` sem alterar nenhuma outra classe:**
+**Use no `main` sem alterar nenhuma classe existente:**
 
 ```java
-central.enfileirar(new NotificacaoTelegram(
+Notificacao n6 = new NotificacaoTelegram(
     "N006",
     "987654321",
     "987654321",
-    "Bem-vindo ao nosso canal!"
-));
+    "Bem-vindo ao nosso canal!");
+historico.add(n6);
+n6.enviar();
 ```
 
 **Discussão crítica:**
 - ✅ Não tocamos em `Notificacao` (abstrata)
-- ✅ Não tocamos em `CentralNotificacoes`
-- ✅ Não tocamos no `main` (apenas adicionamos uma nova chamada)
+- ✅ Não tocamos em nenhuma subclasse existente
+- ✅ Não tocamos na estrutura do `main` (apenas adicionamos uma nova instância à lista `historico`)
 - ✅ Apenas **estendemos** com nova subclasse concreta
 
 > 💎 **A classe abstrata + Template Method criou uma estrutura tão sólida que o sistema cresce por extensão, não por modificação.** Isso é o auge do design orientado a objetos.
@@ -693,7 +646,7 @@ central.enfileirar(new NotificacaoTelegram(
 
 5. **Onde está o polimorfismo neste sistema?**
    - Dentro de `enviar()` — quando chama `validarDestinatario()`, `formatarMensagem()`, `transmitir()` (dispatch dinâmico)
-   - Em `CentralNotificacoes` — `ArrayList<Notificacao>` aceita qualquer subclasse
+   - No `main` — `ArrayList<Notificacao>` aceita qualquer subclasse, e o filtro com `instanceof` distingue tipos quando necessário
    - Sem polimorfismo, classes abstratas perdem sua razão de ser
 
 6. **Por que isso é melhor que um `if (canal == "SMS") ... else if (canal == "Email") ...`?**
